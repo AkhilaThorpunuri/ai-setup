@@ -73,8 +73,10 @@ services:
       retries: 10
 
   minio:
-    image: quay.io/minio/minio:latest
+    image: cgr.dev/chainguard/minio:latest
     container_name: tinitiate-ai-minio
+    user: root
+    entrypoint: ["/usr/bin/docker-entrypoint.sh"]
     restart: unless-stopped
     environment:
       MINIO_ROOT_USER: ai_admin
@@ -97,8 +99,9 @@ services:
   # themselves are never deleted. Re-run on its own with:
   #   docker compose -f tinitiate-ai-onboarding.yml run --rm minio-seed
   minio-seed:
-    image: quay.io/minio/mc:latest
+    image: cgr.dev/chainguard/minio:latest
     container_name: tinitiate-ai-minio-seed
+    user: root
     restart: "no"
     depends_on:
       minio:
@@ -198,8 +201,10 @@ services:
       retries: 3
 
   milvus-minio:
-    image: quay.io/minio/minio:RELEASE.2023-03-20T20-16-18Z
+    image: cgr.dev/chainguard/minio:latest
     container_name: tinitiate-ai-milvus-minio
+    user: root
+    entrypoint: ["/usr/bin/docker-entrypoint.sh"]
     restart: unless-stopped
     environment:
       MINIO_ACCESS_KEY: ai_admin
@@ -211,7 +216,7 @@ services:
       - milvus_minio_data:/minio_data
     command: minio server /minio_data --console-address ":9001"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      test: ["CMD", "mc", "ready", "local"]
       interval: 30s
       timeout: 20s
       retries: 3
