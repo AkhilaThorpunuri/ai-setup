@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Business Website &amp; Policy Documents Portal | Tinitiate AI Setup</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --ink: #0f172a;
+      --muted: #475569;
+      --line: #e2e8f0;
+      --primary: #0f4c81;
+      --accent: #0284c7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    .notice {
+      background: #fff7db;
+      color: #5a4a00;
+      font-size: 13px;
+      text-align: center;
+      padding: 8px 16px;
+      border-bottom: 1px solid #f0e2a8;
+    }
+
+    header.hero {
+      background: linear-gradient(125deg, #0b2545 0%, #0f4c81 60%, #0284c7 100%);
+      color: #fff;
+      padding: 56px 20px 48px;
+    }
+
+    .wrap {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header.hero h1 {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.2;
+    }
+
+    header.hero p {
+      margin: 0;
+      max-width: 760px;
+      font-size: 17px;
+      opacity: 0.92;
+    }
+
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .stat-box {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 14px 18px;
+    }
+
+    .stat-box b {
+      display: block;
+      font-size: 24px;
+      color: #fff;
+    }
+
+    .stat-box span {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    main {
+      padding: 44px 0 64px;
+    }
+
+    .section-title {
+      margin: 0 0 8px;
+      font-size: 24px;
+      color: var(--ink);
+    }
+
+    .section-sub {
+      margin: 0 0 28px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .company-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .company-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .company-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+    }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .card-head img {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+
+    .card-head h2 {
+      margin: 0;
+      font-size: 20px;
+      color: var(--ink);
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: #0369a1;
+      margin-top: 2px;
+    }
+
+    .company-desc {
+      color: var(--muted);
+      font-size: 14.5px;
+      margin: 0 0 16px;
+    }
+
+    .meta-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px;
+      font-size: 13.5px;
+      color: var(--ink);
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+    }
+
+    .meta-list li {
+      margin-bottom: 6px;
+    }
+
+    .meta-list strong {
+      color: var(--muted);
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: 8px;
+      transition: opacity 0.15s ease;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-outline {
+      border: 1px solid var(--line);
+      color: var(--ink);
+      background: #f8fafc;
+    }
+
+    footer {
+      background: #0f172a;
+      color: #94a3b8;
+      text-align: center;
+      padding: 28px 20px;
+      font-size: 13.5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="notice">
+    Synthetic Corporate Websites &amp; Policy Corpus for AI Development (RAG, Document Q&amp;A, MCP, LangGraph &amp;
+    CrewAI)
+  </div>
+
+  <header class="hero">
+    <div class="wrap">
+      <h1>Business Website &amp; Policy Documents Portal</h1>
+      <p>
+        Explore the three fictional enterprise websites and their official policy PDFs hosted by the
+        <code>tinitiate-ai-websites</code> Docker container.
+      </p>
+      <div class="stats-bar">
+        <div class="stat-box"><b>3</b><span>Enterprise Websites</span></div>
+        <div class="stat-box"><b>27</b><span>Branded Policy PDFs</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <h2 class="section-title">Select a Company Portal</h2>
+      <p class="section-sub">Click any company below to open its full website or browse its policy documents.</p>
+
+      <div class="company-grid">
+        <!-- OceanX Logistics -->
+        <div class="company-card">
+          <div>
+            <div class="card-head">
+              <img src="oceanx-logistics/brand/icon.svg" alt="OceanX Logistics Icon">
+              <div>
+                <h2>OceanX Logistics</h2>
+                <span class="badge">Ocean Container Shipping</span>
+              </div>
+            </div>
+            <p class="company-desc">
+              Global ocean container carrier operating 94 vessels across Asia, Europe, North America, and the Indian
+              Subcontinent.
+            </p>
+            <ul class="meta-list">
+              <li><strong>Headquarters:</strong> Singapore</li>
+              <li><strong>Policy PDFs:</strong> 10 Documents (Demurrage, Customs, Tariffs, IMDG, Claims, HR, Crew)</li>
+              <li><strong>Website Pages:</strong> 7 Pages (Home, About, Services, Policies, FAQ, Careers, Contact)</li>
+            </ul>
+          </div>
+          <div class="btn-group">
+            <a class="btn btn-primary" href="oceanx-logistics/website/index.html">Open Website</a>
+            <a class="btn btn-outline" href="oceanx-logistics/website/policies.html">View 10 Policy PDFs</a>
+          </div>
+        </div>
+
+        <!-- Atlas Retail Bank -->
+        <div class="company-card">
+          <div>
+            <div class="card-head">
+              <img src="atlas-retail-bank/brand/icon.svg" alt="Atlas Retail Bank Icon">
+              <div>
+                <h2>Atlas Retail Bank</h2>
+                <span class="badge">Retail &amp; Business Banking</span>
+              </div>
+            </div>
+            <p class="company-desc">
+              U.S. East Coast regional bank with 185 branches offering personal checking, savings, lending, and
+              commercial banking.
+            </p>
+            <ul class="meta-list">
+              <li><strong>Headquarters:</strong> Baltimore, Maryland, USA</li>
+              <li><strong>Policy PDFs:</strong> 9 Documents (CIP/KYC, Truth in Savings, Fee Schedule, Reg CC, Reg E,
+                BSA/AML)</li>
+              <li><strong>Website Pages:</strong> 7 Pages (Home, About, Banking, Disclosures, FAQ, Careers, Contact)
+              </li>
+            </ul>
+          </div>
+          <div class="btn-group">
+            <a class="btn btn-primary" href="atlas-retail-bank/website/index.html">Open Website</a>
+            <a class="btn btn-outline" href="atlas-retail-bank/website/policies.html">View 9 Policy PDFs</a>
+          </div>
+        </div>
+
+        <!-- Amerimed Wellness Institute -->
+        <div class="company-card">
+          <div>
+            <div class="card-head">
+              <img src="amerimed-wellness-institute/brand/icon.svg" alt="Amerimed Wellness Institute Icon">
+              <div>
+                <h2>Amerimed Wellness Institute</h2>
+                <span class="badge">Healthcare &amp; Hospitals</span>
+              </div>
+            </div>
+            <p class="company-desc">
+              Nonprofit West Coast health system with 6 hospitals, 70 clinics &amp; urgent care centers, and 24/7
+              telehealth.
+            </p>
+            <ul class="meta-list">
+              <li><strong>Headquarters:</strong> San Jose, California, USA</li>
+              <li><strong>Policy PDFs:</strong> 8 Documents (Patient Rights, HIPAA Privacy, Charity Care, Billing,
+                Infection Control)</li>
+              <li><strong>Website Pages:</strong> 7 Pages (Home, About, Care &amp; Services, Policies, FAQ, Careers,
+                Contact)</li>
+            </ul>
+          </div>
+          <div class="btn-group">
+            <a class="btn btn-primary" href="amerimed-wellness-institute/website/index.html">Open Website</a>
+            <a class="btn btn-outline" href="amerimed-wellness-institute/website/policies.html">View 8 Policy PDFs</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Tinitiate AI Setup &bull; Served by <code>tinitiate-ai-websites</code> (Nginx Docker Container)
+  </footer>
+</body>
+
+</html>
