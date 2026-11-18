@@ -124,6 +124,7 @@ def layout(c: dict, content: dict, page: str, title: str, body: str) -> str:
   </div>
   <div class="legal">&copy; 2026 {esc(c['legal_name'])}. {esc(c['disclaimer'])}</div>
 </div></footer>
+<script src="/business-website-policy-documents/data-control.js" defer></script>
 </body>
 </html>
 """

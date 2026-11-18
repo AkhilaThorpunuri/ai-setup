@@ -123,6 +123,75 @@ services:
   # Static web server for the company websites and their policy PDFs:
   #   http://localhost:8080/business-website-policy-documents/
   # The folder is bind-mounted, so new or rebuilt sites appear without a restart.
+  data-api:
+    build:
+      context: ./docker/data-api
+    container_name: tinitiate-ai-data-api
+    restart: unless-stopped
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ai_setup
+      POSTGRES_USER: ${POSTGRES_USER:-ai_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ai_admin_pw}
+      MONGO_URI: mongodb://${MONGO_USER:-ai_admin}:${MONGO_PASSWORD:-ai_admin_pw}@mongodb:27017/ai_setup?authSource=admin
+      MONGO_DB: ai_setup
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_ACCESS_KEY: ${MINIO_USER:-ai_admin}
+      MINIO_SECRET_KEY: ${MINIO_PASSWORD:-ai_admin_pw}
+      MINIO_BUCKET: ai-source-data
+      KAFKA_BOOTSTRAP: kafka:29092
+      KAFKA_USER: ${KAFKA_USER:-ai_admin}
+      KAFKA_PASSWORD: ${KAFKA_PASSWORD:-ai_admin_pw}
+      KAFKA_TOPIC: tinitiate-data-ingest
+      JOB_STATE_DIR: /state
+    volumes:
+      - data_jobs_state:/state
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+
+  data-worker:
+    build:
+      context: ./docker/data-api
+    container_name: tinitiate-ai-data-worker
+    restart: unless-stopped
+    command: ["python", "worker.py"]
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ai_setup
+      POSTGRES_USER: ${POSTGRES_USER:-ai_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ai_admin_pw}
+      MONGO_URI: mongodb://${MONGO_USER:-ai_admin}:${MONGO_PASSWORD:-ai_admin_pw}@mongodb:27017/ai_setup?authSource=admin
+      MONGO_DB: ai_setup
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_ACCESS_KEY: ${MINIO_USER:-ai_admin}
+      MINIO_SECRET_KEY: ${MINIO_PASSWORD:-ai_admin_pw}
+      MINIO_BUCKET: ai-source-data
+      KAFKA_BOOTSTRAP: kafka:29092
+      KAFKA_USER: ${KAFKA_USER:-ai_admin}
+      KAFKA_PASSWORD: ${KAFKA_PASSWORD:-ai_admin_pw}
+      KAFKA_TOPIC: tinitiate-data-ingest
+      JOB_STATE_DIR: /state
+    volumes:
+      - data_jobs_state:/state
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+
   websites:
     image: nginx:1.27-alpine
     container_name: tinitiate-ai-websites
@@ -132,6 +201,8 @@ services:
     volumes:
       - ./ai-development-source-data/business-website-policy-documents:/usr/share/nginx/html/business-website-policy-documents:ro
       - ./docker/websites/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - data-api
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1/business-website-policy-documents/"]
       interval: 15s
@@ -169,6 +240,23 @@ services:
       - "${KAFKA_PORT:-9092}:9092"
     volumes:
       - kafka_data:/var/lib/kafka/data
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: tinitiate-ai-kafka-ui
+    restart: unless-stopped
+    environment:
+      KAFKA_CLUSTERS_0_NAME: tinitiate-ai-kafka
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+      KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL: SASL_PLAINTEXT
+      KAFKA_CLUSTERS_0_PROPERTIES_SASL_MECHANISM: PLAIN
+      KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG: >-
+        org.apache.kafka.common.security.plain.PlainLoginModule required
+        username="${KAFKA_USER:-ai_admin}" password="${KAFKA_PASSWORD:-ai_admin_pw}";
+    ports:
+      - "${KAFKA_UI_PORT:-8085}:8080"
+    depends_on:
+      - kafka
 
   vectordb:
     image: qdrant/qdrant:latest
@@ -254,6 +342,7 @@ volumes:
   elasticsearch_data:
   minio_data:
   kafka_data:
+  data_jobs_state:
   vectordb_data:
   milvus_etcd_data:
   milvus_minio_data:
